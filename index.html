@@ -23,6 +23,15 @@
 
         /* Container Chat - Biar Gak Datar */
         .chat-container {
+            .chat-container {
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .chat-container::-webkit-scrollbar {
+                display: none;
+            }
+
             width: 90%;
             max-width: 650px;
             height: 85vh;
@@ -207,7 +216,7 @@
 
                     try {
                         // PASTIKAN URL INI SAMA DENGAN DI FASTAPI (127.0.0.1:8000)
-                        const response = await fetch('http://127.0.0.1:8000/chat/', {
+                        const response = await fetch('https://overlabor-fineness-strobe.ngrok-free.dev/chat/', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ pesan: pesan })
