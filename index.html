@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Asisten Agung - PPLG Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@600&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Warna Dasar & Font */
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Chat - Biar Gak Datar */
+        .chat-container {
+            width: 90%;
+            max-width: 650px;
+            height: 85vh;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            /* Efek Kaca */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        /* Box Chat */
+        #chat-box {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Bubble Chat User */
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Bubble Chat AI - Biar Gak Polos */
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(51, 65, 85, 0.5);
+            color: #e2e8f0;
+            padding: 15px 22px;
+            border-radius: 20px 20px 20px 4px;
+            border-left: 4px solid #ef4444;
+            /* Garis merah khas MSI */
+            line-height: 1.6;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        input {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: #1e293b;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        button {
+            padding: 0 25px;
+            background: #ef4444;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        /* Markdown & Code Style */
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            border: 1px solid #334155;
+        }
+
+        code {
+            color: #facc15;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* Styling untuk Header MSI */
+        .chat-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Oxanium', sans-serif;
+            /* Font Robotik */
+            position: relative;
+            padding: 10px;
+        }
+
+        /* Tulisan Utama AI MSI */
+        .m-title {
+            font-size: 24px;
+            color: #e2e8f0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            /* Efek Neon/Glow Merah MSI */
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.7),
+                0 0 20px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Tulisan Thin 15 (Warna Merah Khas) */
+        .thin-15 {
+            color: #ef4444;
+            /* Merah MSI */
+            font-weight: 600;
+        }
+
+        /* Garis Tech di bawah tulisan */
+        .tech-line {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ef4444, transparent);
+            margin: 8px auto 0;
+            border-radius: 2px;
+
+            /* Efek Glow pada garis */
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+
+        <div class="chat-header">
+            <span class="m-title">AI MSI <span class="thin-15">Thin 15</span></span>
+            <div class="tech-line"></div>
+        </div>
+
+        <div class="chat-container">
+            ...
+
+
+            <div class="chat-container">
+                <div id="chat-box">
+                    <div class="message ai">Halo Agung! Aku asistenmu. Ada yang bisa dibantu hari ini?</div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="user-input" placeholder="Tanya sesuatu ke AI..."
+                        onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">Kirim</button>
+                </div>
+            </div>
+
+            <script>
+                function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+                async function sendMessage() {
+                    const inputField = document.getElementById('user-input');
+                    const chatBox = document.getElementById('chat-box');
+                    const pesan = inputField.value.trim();
+
+                    if (!pesan) return;
+
+                    // Tampilkan pesan user
+                    appendMessage('user', pesan);
+                    inputField.value = '';
+
+                    try {
+                        // PASTIKAN URL INI SAMA DENGAN DI FASTAPI (127.0.0.1:8000)
+                        const response = await fetch('http://127.0.0.1:8000/chat/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ pesan: pesan })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.jawaban_ai) {
+                            appendMessage('ai', data.jawaban_ai);
+                        } else {
+                            appendMessage('ai', "Waduh, AI-nya lagi bengong. Coba lagi, Gung!");
+                        }
+                    } catch (error) {
+                        console.error("Error Detail:", error);
+                        appendMessage('ai', "<span style='color: #ef4444;'>Gagal terhubung ke server. Pastikan uvicorn jalan di port 8000!</span>");
+                    }
+                }
+
+                function appendMessage(sender, text) {
+                    const chatBox = document.getElementById('chat-box');
+                    const div = document.createElement('div');
+                    div.classList.add('message', sender);
+                    chatBox.appendChild(div);
+
+                    if (sender === 'ai') {
+                        let i = 0;
+                        div.innerHTML = ""; // Kosongkan dulu
+
+                        // Fungsi untuk ngetik satu per satu karakter
+                        function typeWriter() {
+                            if (i < text.length) {
+                                // Kita ambil teks asli, lalu setiap langkah kita parse ke Markdown
+                                div.innerHTML = marked.parse(text.substring(0, i + 1));
+                                i++;
+                                chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll ke bawah
+                                setTimeout(typeWriter, 20); // Kecepatan ngetik (20ms per huruf)
+                            }
+                        }
+                        typeWriter();
+                    } else {
+                        div.innerText = text;
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+
+            </script>
+
+    </body>
+
+</html>
