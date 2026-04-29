@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv # Harus ada ini
 
 load_dotenv() # Ini penting untuk baca file .env
-OPENROUTER_API_KEY = os.getenv("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")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 # 1. Load file .env
 load_dotenv()
 
