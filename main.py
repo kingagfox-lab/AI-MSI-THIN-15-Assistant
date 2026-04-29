@@ -1,19 +1,20 @@
+import os
 import requests
 import json
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv # Harus ada ini
 
+# 1. Load file .env
 load_dotenv()
-OPENROUTER_API_KEY = os.getenv("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")
 
-# Inisialisasi memori chat
-chat_history = []
-
+# 2. Ambil kuncinya dari .env
+OPENROUTER_API_KEY = os.getenv("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")
+print(f"DEBUG: Kunci yang terbaca adalah: {"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"[:10]}...")
 app = FastAPI()
-
+# ... (sisa kode middleware tetap sama)
+chat_history = []
 # Middleware CORS: Jembatan wajib agar HTML bisa akses Python
 app.add_middleware(
     CORSMiddleware,
@@ -26,10 +27,10 @@ class ChatInput(BaseModel):
     pesan: str
 
 # API KEY OpenRouter kamu
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 @app.post("/chat/")
 def ngobrol_dengan_ai(input_user: ChatInput):
-    global chat_history
+    global chat_history # Memanggil variabel yang di atas tadi
     try:
         chat_history.append({"role": "user", "content": input_user.pesan})
         
