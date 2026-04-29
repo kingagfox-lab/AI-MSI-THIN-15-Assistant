@@ -6,12 +6,14 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv # Harus ada ini
 
+load_dotenv() # Ini penting untuk baca file .env
+OPENROUTER_API_KEY = os.getenv("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")
 # 1. Load file .env
 load_dotenv()
 
 # 2. Ambil kuncinya dari .env
-OPENROUTER_API_KEY = "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"
-print(f"DEBUG: Kunci yang terbaca adalah: {"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"[:10]}...")
+OPENROUTER_API_KEY = "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"
+print(f"DEBUG: Kunci yang terbaca adalah: {"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"[:10]}...")
 app = FastAPI()
 # ... (sisa kode middleware tetap sama)
 chat_history = []
@@ -27,13 +29,13 @@ class ChatInput(BaseModel):
     pesan: str
 
 # API KEY OpenRouter kamu
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 @app.post("/chat/")
 async def ngobrol_dengan_ai(input_user: ChatInput):
 
     print(f"--- ADA PESAN MASUK ---")
     print(f"Isi Pesan: {input_user.pesan}")
-    print(f"Memakai Key: {"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"[:10]}...") 
+    print(f"Memakai Key: {"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"[:10]}...") 
 
     payload = {
         "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
@@ -44,7 +46,7 @@ async def ngobrol_dengan_ai(input_user: ChatInput):
     }
     
     headers = {
-        "Authorization": f"Bearer {"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"}",    
+        "Authorization": f"Bearer {"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"}",    
         "Content-Type": "application/json"
     }
 
