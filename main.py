@@ -10,8 +10,8 @@ from dotenv import load_dotenv # Harus ada ini
 load_dotenv()
 
 # 2. Ambil kuncinya dari .env
-OPENROUTER_API_KEY = os.getenv("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")
-print(f"DEBUG: Kunci yang terbaca adalah: {"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"[:10]}...")
+OPENROUTER_API_KEY = "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"
+print(f"DEBUG: Kunci yang terbaca adalah: {"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"[:10]}...")
 app = FastAPI()
 # ... (sisa kode middleware tetap sama)
 chat_history = []
@@ -27,10 +27,28 @@ class ChatInput(BaseModel):
     pesan: str
 
 # API KEY OpenRouter kamu
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 @app.post("/chat/")
-def ngobrol_dengan_ai(input_user: ChatInput):
-    global chat_history # Memanggil variabel yang di atas tadi
+async def ngobrol_dengan_ai(input_user: ChatInput):
+
+    print(f"--- ADA PESAN MASUK ---")
+    print(f"Isi Pesan: {input_user.pesan}")
+    print(f"Memakai Key: {"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"[:10]}...") 
+
+    payload = {
+        "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
+        "messages": [
+            {"role": "system", "content": "Kamu adalah asisten MSI Thin 15 yang keren."},
+            {"role": "user", "content": input_user.pesan}
+        ]
+    }
+    
+    headers = {
+        "Authorization": f"Bearer {"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"}",    
+        "Content-Type": "application/json"
+    }
+
+    global chat_history 
     try:
         chat_history.append({"role": "user", "content": input_user.pesan})
         
